@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "category")
 public class Category {
-    private int id;
+    private int categoryId;
     private String name;
 
     public Category() {
@@ -14,17 +14,17 @@ public class Category {
         this.name = name;
     }
 
-    public Category(int id, String name) {
-        this.id = id;
+    public Category(int categoryId, String name) {
+        this.categoryId = categoryId;
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {

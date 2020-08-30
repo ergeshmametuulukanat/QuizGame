@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "user")
 public class User {
-    private int id;
+    private int userId;
     private String login;
     private String password;
     private String email;
@@ -12,19 +12,19 @@ public class User {
     public User() {
     }
 
-    public User(int id, String login, String password, String email) {
-        this.id = id;
+    public User(int userId, String login, String password, String email) {
+        this.userId = userId;
         this.login = login;
         this.password = password;
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {

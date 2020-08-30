@@ -11,7 +11,7 @@ import java.util.List;
 @Path("/categories")
 public class CategoryService {
     @GET
-    @Path("/getCategories")
+    @Path("/getAll")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<Category> getCategories_JSON(@HeaderParam("user-key") String login,
                                              @HeaderParam("password-key") String password) {

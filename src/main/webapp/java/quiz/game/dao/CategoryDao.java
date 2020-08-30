@@ -73,7 +73,7 @@ public class CategoryDao extends DBConnector {
         try (Connection conn = connect();
              PreparedStatement stmt = conn.prepareStatement(SQL)) {
             stmt.setString(1, category.getName());
-            stmt.setInt(2, category.getId());
+            stmt.setInt(2, category.getCategoryId());
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());

@@ -10,7 +10,7 @@ import java.util.List;
 @Path("/users")
 public class UserService {
     @GET
-    @Path("/getAllUsers")
+    @Path("/getAll")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<User> getUsers_JSON() {
         return new UserDao().getAllUsers();
