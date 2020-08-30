@@ -4,10 +4,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "user")
 public class User {
-    int id;
-    String login;
-    String password;
-    String email;
+    private int id;
+    private String login;
+    private String password;
+    private String email;
 
     public User() {
     }

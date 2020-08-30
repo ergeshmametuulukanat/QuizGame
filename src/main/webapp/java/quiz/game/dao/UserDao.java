@@ -106,4 +106,14 @@ public class UserDao extends DBConnector {
         }
         return false;
     }
+
+    public boolean authorize(String login, String password) {
+        UserDao userDao = new UserDao();
+        for (User user : userDao.getAllUsers()) {
+            if (user.getLogin().equals(login) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

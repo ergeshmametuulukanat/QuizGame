@@ -13,16 +13,14 @@ public class UserService {
     @Path("/getAllUsers")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public List<User> getUsers_JSON() {
-        UserDao userDao = new UserDao();
-        return userDao.getAllUsers();
+        return new UserDao().getAllUsers();
     }
 
     @GET
     @Path("/{userId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public User getUser(@PathParam("userId") Integer userId) {
-        UserDao userDao = new UserDao();
-        return userDao.getUser(userId);
+        return new UserDao().getUser(userId);
     }
 
     @POST
@@ -30,15 +28,17 @@ public class UserService {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Consumes({MediaType.APPLICATION_JSON})
     public String addUser(User user) {
-        UserDao db = new UserDao();
-        return db.addUser(user) ? "Registration is successfully" : "Something went wrong";
+        UserDao userDao = new UserDao();
+        if (userDao.checkLogin(user.getLogin())) {
+            return "This login isn't available";
+        }
+        return userDao.addUser(user) ? "Registration is successfully" : "Something went wrong";
     }
 
     @DELETE
     @Path("/{userId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public String deleteUser(@PathParam("userId") Integer userId) {
-        UserDao userDao = new UserDao();
-        return userDao.deleteUser(userId) ? "Successfully deleted" : "Something went wrong";
+        return new UserDao().deleteUser(userId) ? "Successfully deleted" : "Something went wrong";
     }
 }
