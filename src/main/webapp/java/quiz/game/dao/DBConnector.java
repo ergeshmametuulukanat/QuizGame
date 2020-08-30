@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnector {
     public final String url = "jdbc:postgresql://localhost:5432/";
     public final String user = "postgres";
-    public final String password = "123";
+    public final String password = "subanovkt";
 
     public Connection connect() {
         Connection conn = null;

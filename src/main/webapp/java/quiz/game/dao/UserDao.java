@@ -16,14 +16,15 @@ public class UserDao extends DBConnector {
         try (Connection conn = connect()) {
             PreparedStatement stmt = conn.prepareStatement(SQL);
             ResultSet rs = stmt.executeQuery();
-            User us;
+            User user;
             while (rs.next()) {
-                us = new User(rs.getInt("user_id"),
+                user = new User(rs.getInt("user_id"),
                         rs.getString("user_name"),
                         rs.getString("password"),
                         rs.getString("email")
                 );
-                users.add(us);
+                user.setPassword(hidePassword(user));
+                users.add(user);
             }
 
         } catch (SQLException ex) {
@@ -34,14 +35,14 @@ public class UserDao extends DBConnector {
     }
 
     public User getUser(int userId) {
-        User us = null;
+        User user = null;
         String SQL = "SELECT * FROM users where user_id = ?";
         try (Connection conn = connect()) {
             PreparedStatement stmt = conn.prepareStatement(SQL);
             stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                us = new User(rs.getInt("user_id"),
+                user = new User(rs.getInt("user_id"),
                         rs.getString("user_name"),
                         rs.getString("password"),
                         rs.getString("email")
@@ -51,7 +52,9 @@ public class UserDao extends DBConnector {
             System.out.println(ex.getMessage());
             return null;
         }
-        return us;
+        assert user != null;
+        user.setPassword(hidePassword(user));
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -59,10 +62,23 @@ public class UserDao extends DBConnector {
         try (Connection conn = connect();
              PreparedStatement stmt = conn.prepareStatement(SQL)
         ) {
-            user.setPassword(hidePassword(user));
             stmt.setString(1, user.getLogin());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getEmail());
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean deleteUser(int userId) {
+        String SQL = "delete from users where user_id = ?";
+        try (Connection conn = connect();
+             PreparedStatement stmt = conn.prepareStatement(SQL)
+        ) {
+            stmt.setInt(1, userId);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -81,17 +97,13 @@ public class UserDao extends DBConnector {
         return revPass.toString();
     }
 
-    public boolean deleteUser(int userId) {
-        String SQL = "delete from users where user_id = ?";
-        try (Connection conn = connect();
-             PreparedStatement stmt = conn.prepareStatement(SQL)
-        ) {
-            stmt.setInt(1, userId);
-            stmt.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return false;
+    public boolean checkLogin(String login) {
+        UserDao userDao = new UserDao();
+        for (User user : userDao.getAllUsers()) {
+            if (user.getLogin().equals(login)) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 }
